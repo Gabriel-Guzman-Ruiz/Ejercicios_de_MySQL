@@ -12,6 +12,12 @@ Los ejercicios están organizados en diferentes carpetas según el tipo de activ
 
 🔸 **Diagramas Entidad–Relación (DER) y Modelos relacionales y normalización**  
 👉 [Abrir carpeta](./Ejercicio%20de%20clase%201%20-%20Empresa%20de%20transporte)
+👉 [Abrir carpeta](./Ejercicio%20de%20clase%202-%20Instituto-Gabriel%20Guzman)
+👉 [Abrir carpeta](./Ejercicio%20de%20clase%203.-%20Tienda%20de%20móviles%20-%20Gabriel%20Guzmán)
+👉 [Abrir carpeta](./Ejercicios%20sobre%20relaciones%20reflexivas%20y%20ternarias)
+👉 [Abrir carpeta](./Ejercicios-jerarquía_de_entidades)
+👉 [Abrir carpeta](./Ejercicios-participación_cardinalidad)
+👉 [Abrir carpeta](./Ejercicio%20de%20clase%201%20-%20Empresa%20de%20transporte)
 
 > 🛈 *Actualmente aún no se han realizado ejercicios de creación de bases de datos en MySQL mediante código SQL.  
 Por ahora, este repositorio incluye únicamente ejercicios de diseño mediante diagramas entidad–relación y modelos relacionales.*
