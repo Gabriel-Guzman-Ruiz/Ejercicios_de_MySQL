@@ -11,7 +11,7 @@ Este espacio refleja mi proceso de aprendizaje y evolución en el ámbito de la 
 Los ejercicios están organizados en diferentes carpetas según el tipo de actividad:
 
 🔸 **Diagramas Entidad–Relación (DER) y Modelos relacionales y normalización**  
-👉 [Abrir carpeta](./Ejerciciodeclase1-Empresadetransporte)
+👉 [Abrir carpeta](./Ejercicio de clase 1 - Empresa de transporte)
 
 > 🛈 *Actualmente aún no se han realizado ejercicios de creación de bases de datos en MySQL mediante código SQL.  
 Por ahora, este repositorio incluye únicamente ejercicios de diseño mediante diagramas entidad–relación y modelos relacionales.*
