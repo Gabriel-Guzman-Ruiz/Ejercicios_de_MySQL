@@ -10,11 +10,8 @@ Este espacio refleja mi proceso de aprendizaje y evolución en el ámbito de la 
 
 Los ejercicios están organizados en diferentes carpetas según el tipo de actividad:
 
-🔸 **Diagramas Entidad–Relación (DER)**  
-👉 [Abrir carpeta](./DiagramasER)
-
-🔸 **Modelos relacionales y normalización**  
-👉 [Abrir carpeta](./ModelosRelacionales)
+🔸 **Diagramas Entidad–Relación (DER) y Modelos relacionales y normalización**  
+👉 [Abrir carpeta](./Ejerciciodeclase1-Empresadetransporte)
 
 > 🛈 *Actualmente aún no se han realizado ejercicios de creación de bases de datos en MySQL mediante código SQL.  
 Por ahora, este repositorio incluye únicamente ejercicios de diseño mediante diagramas entidad–relación y modelos relacionales.*
@@ -48,8 +45,8 @@ Este repositorio se irá actualizando conforme avance en el desarrollo de ejerci
 
 ## 📬 Contacto
 
-✉️ **Email:** *[tu correo]*  
-🐙 **GitHub:** [Mi Perfil](https://github.com/tuusuario)
+✉️ **Email:** *[gabrielguzmam2004@gmail.com]*  
+🐙 **GitHub:** [Mi Perfil](https://github.com/Gabriel-Guzman-Ruiz)
 
 ---
 
