@@ -69,3 +69,4 @@ alter table usuario change nombre nombre_de_usuario varchar(50) not null;
 alter table usuario alter rol set default 'Estudiante';
 -- crea una nueva columna
 alter table usuario add fecha_nacimiento date not null;
+
