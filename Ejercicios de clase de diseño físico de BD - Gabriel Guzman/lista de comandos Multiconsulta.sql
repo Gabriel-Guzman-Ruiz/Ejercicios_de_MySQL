@@ -83,14 +83,24 @@ inner join polideportivos po on p.id_polideportivo = po.id
 where p.tipo = 'Baloncesto'
 order by po.nombre;
 
--- LEFT JOIN: 
+-- LEFT JOIN: muestra todas las dilas incuso las que no tenga algun dato, muestra los que tiene tatos nulos
 -- Mustra una fecha de ultima reserva (Las que esten en pistas_abiertas)
-select  p.*, p. precio, pa.fecha_ultima_reserva
+select  p.* , p. precio, pa.fecha_ultima_reserva
 from pistas p
 left join pistas_abiertas pa on p.id = pa. id_pista;
 
 -- RIGHT JOIN: 
 -- Dodos los polideportivos y las pistas asisiadas, incluso los que no tiene pistas asociadas
-select  po.*, p.*
+select  p.* , p. precio, pa.fecha_ultima_reserva
 from pistas p
-right join polideportivos po on p.id_polideportivo = po.id;
+right join pistas_abiertas pa on p.id = pa. id_pista;
+
+-- full JOIN: . MySQL no acepta este comando 
+-- Dodos los polideportivos y las pistas asisiadas, incluso los que no tiene pistas asociadas
+select  u.nombre, r.id_reserva as id_reservas
+from usuarios u
+left join usuario_reserva r on u.id = id_usuario;
+union
+select  u.nombre, r.id_reserva as id_reservas
+from usuarios u
+right join usuario_reserva r on u.id = id_usuario;

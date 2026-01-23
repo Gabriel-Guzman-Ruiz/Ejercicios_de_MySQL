@@ -1,9 +1,23 @@
+use jardineria;
+
 -- 1) Obtener el nombre del producto más caro. Realizar el ejercicio como una 
 -- subconsulta y luego como una consulta simple para que dicha consulta sea 
 -- más eficiente. 
 
+select nombre 
+from producto
+where precio_venta = (select max(precio_venta) from  producto);
+
+select  nombre 
+from producto
+order by precio_venta desc limit 1;
+
 -- 2) Obtener el nombre del producto del que más unidades se hayan vendido en 
 -- un mismo pedido. 
+
+select p.nombre 
+from producto p
+where d.cantidad > (select max(cantidad) from  detalle_pedido d where p.codigo_producto = d.codigo_producto);
 
 -- 3) Obtener el nombre de los clientes que hayan hecho pedidos en 2008. 
 
