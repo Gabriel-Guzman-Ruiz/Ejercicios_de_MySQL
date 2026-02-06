@@ -37,3 +37,7 @@ where d.cantidad > (select max(cantidad) from  detalle_pedido d where p.codigo_p
 
 -- 9) Obtener la gama, el proveedor y la cantidad de aquellos productos cuyo 
 -- estado sea pendiente.
+
+select gama, proveedor, sum(cantidad) "total de productos pendientes"
+from producto p inner join detalle_pedido dp on p.codigo_producto = dp.codigo_producto
+where dp.codigo_pedido in (select codigo_pedido from pedido where estado = 'Pendiente');
