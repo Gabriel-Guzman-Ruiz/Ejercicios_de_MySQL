@@ -195,3 +195,44 @@ select @valor;
 -- eliminar prosedimiento
 drop procedure if exists employees.ejemplo_while;
 
+-- FUNCIONES
+DELIMITER //
+create function ejemplo() returns varchar(20) deterministic
+begin
+	return 'ejemplo';
+end//
+DELIMITER ;
+select ejemplo();
+
+-- un numero es positivo o negativo funcion
+DELIMITER $$
+create function es_positivo_o_negativo_funcion( valor int) returns boolean deterministic
+begin
+	declare resultado boolean;
+    
+	if valor = 0 then
+		set resultado = true;
+	else
+		if valor < 0 then
+			set resultado = false;
+		else
+			set resultado = true;
+        end if;
+    end if;
+    return resultado;
+end $$
+DELIMITER ;
+
+set @valor = -10;
+select es_positivo_o_negativo_funcion(@valor);
+
+-- 
+DELIMITER $$
+create function employees.getName(emp_no) returns varchar(50) deterministic
+begin
+	
+end $$
+DELIMITER ;
+
+set @valor = -10;
+select es_positivo_o_negativo_funcion(@valor);
