@@ -92,11 +92,9 @@ BEGIN
 END$$
 DELIMITER ;
 
--- =========================================================
--- EJERCICIO 2
--- Asignar automáticamente manager al crear departamento
--- (Se añade previamente el campo manager_id)
--- =========================================================
+-- 2) Cada vez que se añada un nuevo departamento, asigna como 'manager' del 
+-- nuevo departamento al empleado que esté actualmente trabajando y que lleve
+-- más tiempo en la empresa, y, además, no sea manager de ningún otro departamento.
 
 ALTER TABLE departments
 ADD COLUMN manager_id INT NULL,
@@ -106,7 +104,6 @@ FOREIGN KEY (manager_id) REFERENCES employees(employee_id);
 DROP TRIGGER IF EXISTS tr_departments_asignar_manager_bi;
 
 DELIMITER $$
-
 CREATE TRIGGER tr_departments_asignar_manager_bi
 BEFORE INSERT ON departments
 FOR EACH ROW
@@ -127,13 +124,19 @@ BEGIN
 
     SET NEW.manager_id = v_manager_id;
 END$$
-
 DELIMITER ;
 
--- =========================================================
--- EJERCICIO 3
--- REGISTRO + usuario + auditoría + control de salario
--- =========================================================
+-- 3) Crea una tabla de nombre REGISTRO con las columnas:
+	-- • id autonumérica Clave primaria
+	-- • usuario: varchar(100)
+	-- • tabla: varchar(100)
+	-- • operacion: varchar(10)
+	-- • fecha-hora: datetime
+-- Crea un nuevo usuario de nombre 'Gestiona_Triggers' que tenga permisos para crear y ejecutar triggers. 
+-- Conéctate con dicho usuario y crea los triggers necesarios para que:
+	-- • Se registren las operaciones de alta, baja y modificación sobre la tabla 'departments'.
+	-- • Si ya existen triggers creados, nos los modifiques, crea uno nuevo.
+	-- • Impide que se pueda añadir o modificar un salario a un empleado si este es inferior a 30000 euros o superior a 300000 euros anuales.
 
 -- Tabla REGISTRO
 CREATE TABLE IF NOT EXISTS REGISTRO (
@@ -158,7 +161,6 @@ DROP TRIGGER IF EXISTS tr_departments_registro_au;
 DROP TRIGGER IF EXISTS tr_departments_registro_ad;
 
 DELIMITER $$
-
 CREATE TRIGGER tr_departments_registro_ai
 AFTER INSERT ON departments
 FOR EACH ROW
@@ -182,7 +184,6 @@ BEGIN
     INSERT INTO REGISTRO(usuario, tabla_nombre, operacion, fecha_hora)
     VALUES (CURRENT_USER(), 'departments', 'BAJA', NOW());
 END$$
-
 DELIMITER ;
 
 -- Control de salario
@@ -190,7 +191,6 @@ DROP TRIGGER IF EXISTS tr_employees_salario_rango_bi;
 DROP TRIGGER IF EXISTS tr_employees_salario_rango_bu;
 
 DELIMITER $$
-
 CREATE TRIGGER tr_employees_salario_rango_bi
 BEFORE INSERT ON employees
 FOR EACH ROW
@@ -210,13 +210,18 @@ BEGIN
         SET MESSAGE_TEXT = 'El salario debe estar entre 30000 y 300000';
     END IF;
 END$$
-
 DELIMITER ;
 
--- =========================================================
--- EJERCICIO 4
--- CONTADOR automático de empleados y departamentos
--- =========================================================
+-- 4) Crea una tabla de nombre CONTADOR con las columnas:
+	-- • id autonumérica: clave primaria
+	-- • tipo: varchar(100)
+	-- • valor: int
+-- Añade dos filas a la tabla con los valores siguientes:
+	-- ID | TIPO | VALOR
+	-- 1 | numEmpleados | 0
+	-- 2 | numDepartamentos | 0
+-- Haz que cada vez que haya alguna operación que modifique el número de empleados o de 
+-- departamentos, se actualice el número total de los mismos en la tabla contador.
 
 -- Tabla CONTADOR
 CREATE TABLE IF NOT EXISTS CONTADOR (
@@ -247,7 +252,6 @@ DROP TRIGGER IF EXISTS tr_departments_contador_ai;
 DROP TRIGGER IF EXISTS tr_departments_contador_ad;
 
 DELIMITER $$
-
 CREATE TRIGGER tr_employees_contador_ai
 AFTER INSERT ON employees
 FOR EACH ROW
@@ -283,6 +287,4 @@ BEGIN
     SET valor = valor - 1
     WHERE tipo = 'numDepartamentos';
 END$$
-
 DELIMITER ;
-        
