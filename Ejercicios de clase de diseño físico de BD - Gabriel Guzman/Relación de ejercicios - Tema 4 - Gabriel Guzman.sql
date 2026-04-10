@@ -288,3 +288,90 @@ BEGIN
     WHERE tipo = 'numDepartamentos';
 END$$
 DELIMITER ;
+
+-- RELACIÓN DE EJERCICIOS SOBRE EVENTOS
+SET GLOBAL event_scheduler = ON;
+
+-- 1) Registrar usuarios cada minuto durante 10 minutos
+
+CREATE TABLE historico_usuarios_hora (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(100),
+    equipo VARCHAR(100),
+    fecha_hora DATETIME
+);
+
+CREATE EVENT registro_usuarios
+ON SCHEDULE EVERY 1 MINUTE
+STARTS NOW()
+ENDS NOW() + INTERVAL 10 MINUTE
+DO
+INSERT INTO historico_usuarios_hora (usuario, equipo, fecha_hora)
+SELECT USER, HOST, NOW()
+FROM information_schema.processlist;
+
+SELECT * FROM  historico_usuarios_hora ;
+
+-- 2) Copia de departments en una fecha concreta
+
+CREATE TABLE dept_copia LIKE departments;
+
+CREATE EVENT copia_departments
+ON SCHEDULE AT '2021-01-30 23:15:00'
+DO
+INSERT INTO dept_copia
+SELECT * FROM departments;
+
+SELECT * FROM  departments ;
+
+-- 3) Número de empleados cada 4 días
+
+CREATE TABLE empleados_numero_mensual (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    total_empleados INT,
+    fecha DATETIME
+);
+
+CREATE EVENT conteo_empleados
+ON SCHEDULE EVERY 4 DAY
+STARTS NOW()
+DO
+INSERT INTO empleados_numero_mensual (total_empleados, fecha)
+SELECT COUNT(*), NOW()
+FROM employees;
+
+SELECT * FROM  empleados_numero_mensual ;
+
+-- 4) Subida del 10% a managers cada 1 de enero durante 5 años
+
+CREATE EVENT subida_salarios_managers
+ON SCHEDULE EVERY 1 YEAR
+STARTS '2026-01-01 00:00:00'
+ENDS '2031-01-01 00:00:00'
+DO
+UPDATE employees
+SET salary = salary * 1.10
+WHERE employee_id IN (
+    SELECT DISTINCT manager_id
+    FROM employees
+    WHERE manager_id IS NOT NULL
+);
+
+-- RELACIÓN DE EJERCICIOS SOBRE VISTAS
+
+-- 1) Vista con empleados que tengan salario por encima de 85.000 euros
+
+CREATE OR REPLACE VIEW vista_empleados_salario_alto AS
+SELECT employee_id, first_name, last_name, salary
+FROM employees
+WHERE salary > 85000;
+
+CREATE USER 'usuario_vistas'@'localhost' IDENTIFIED BY '1234';
+GRANT SELECT ON employees.vista_empleados_salario_alto TO 'usuario_vistas'@'localhost';
+FLUSH PRIVILEGES;
+
+SELECT * FROM vista_empleados_salario_alto;
+
+-- 2) Vista con los datos de titles solo de empleados que siguen trabajando actualmente
+-- 3) Vista con empleados que pertenecen al “staf” y otra vista con nombres y departamento
+-- 4) Vista con empleados nacidos entre 1950 y 1955 y ejecutada con permisos del usuario que la utilice
