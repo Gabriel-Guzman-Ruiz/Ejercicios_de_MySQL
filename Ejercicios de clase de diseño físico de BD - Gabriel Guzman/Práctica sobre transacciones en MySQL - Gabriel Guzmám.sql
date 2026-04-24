@@ -17,6 +17,8 @@ use jardineria;
 	-- Control de Errores: Debe incluir un DECLARE EXIT HANDLER 
 	-- para evitar inconsistencias ante errores inesperados de SQL.
     
+drop PROCEDURE realizar_pago_con_stock;
+    
 DELIMITER // 
 CREATE PROCEDURE  realizar_pago_con_stock(
 	IN p_codigo_cliente INT,
@@ -45,11 +47,11 @@ BEGIN
     FROM cliente WHERE codigo_cliente = p_codigo_cliente;
     
 	SELECT cantidad_en_stock INTO v_limite_stock
-    FROM producto WHERE codigo_producto = p_codigo_pedido;
+    FROM producto WHERE codigo_producto = p_codigo_producto;
    
    SET v_total_pedido = p_cantidad * p_precio_unidad;
     
-    IF v_total_pedido > v_limite_credito or (v_limite_stock - p_cantidad) <= 0 THEN
+    IF v_total_pedido > v_limite_credito or v_limite_stock - p_cantidad < 0 THEN
 		-- Validación de negocio fallida
 		SELECT 'Límite de crédito excedido o no hay soficiente stock. Cancelando...' AS Estado;
 		ROLLBACK;
@@ -57,7 +59,7 @@ BEGIN
     
 		UPDATE producto
 		SET cantidad_en_stock = v_limite_stock - p_cantidad
-		WHERE  codigo_producto = p_codigo_pedido;
+		WHERE  codigo_producto = p_codigo_producto;
     
     
 		-- Operación 1: Insertar cabecera
@@ -76,6 +78,6 @@ DELIMITER ;
 
 call realizar_pago_con_stock();
 
-call realizar_pago_con_stock(5, 129, "FR-101", 5, 0);
+call realizar_pago_con_stock(10, 132, "AR-001", 5, 1);
 
-call realizar_pago_con_stock(10, 10, "FR-101", 5, 13);
+call realizar_pago_con_stock(10, 10, "FR-101", 400, 13);
